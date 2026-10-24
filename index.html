@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Number Generator (0000–9999)</title>
+  <!-- Google Fonts Pairing: Space Mono (Display), Instrument Sans (UI), Roboto Mono (Data/Steps) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="shell">
+    <!-- Top Navigation / Header -->
+    <header class="masthead">
+      <div class="brand">
+        <span class="brand-glyph" aria-hidden="true" title="Vehicle Number Generator">
+          <!-- Clean Vehicle / Number Plate Icon -->
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="6" width="20" height="12" rx="2.5"></rect>
+            <circle cx="6" cy="12" r="1.5" fill="currentColor"></circle>
+            <circle cx="18" cy="12" r="1.5" fill="currentColor"></circle>
+            <path d="M10 10h4m-4 4h4"></path>
+          </svg>
+        </span>
+        <div class="brand-text">
+          <span class="brand-title">VEHICLE NUMBER GENERATOR</span>
+          <span class="brand-sub">Find 4-digit vehicle registration numbers by your chosen total</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="themeToggleBtn" class="theme-switch" title="Toggle dark or light mode" aria-label="Toggle dark or light mode">
+          <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="21" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Instrument Card -->
+    <main class="console-card">
+      <!-- Target Selector Section -->
+      <section class="control-panel">
+        <div class="panel-meta-row">
+          <label class="control-label" for="digitInput">CHOOSE YOUR TARGET DIGIT TOTAL (0 &ndash; 9)</label>
+          <span class="pool-meta" id="poolBadge">1,111 vehicle numbers match this sum</span>
+        </div>
+
+        <!-- 10-Key Dial -->
+        <div class="keypad-strip" id="digitPillGrid" role="group" aria-label="Select target digit">
+          <button type="button" class="keypad-key" data-digit="0">0</button>
+          <button type="button" class="keypad-key" data-digit="1">1</button>
+          <button type="button" class="keypad-key" data-digit="2">2</button>
+          <button type="button" class="keypad-key" data-digit="3">3</button>
+          <button type="button" class="keypad-key" data-digit="4">4</button>
+          <button type="button" class="keypad-key" data-digit="5">5</button>
+          <button type="button" class="keypad-key" data-digit="6">6</button>
+          <button type="button" class="keypad-key" data-digit="7">7</button>
+          <button type="button" class="keypad-key active" data-digit="8">8</button>
+          <button type="button" class="keypad-key" data-digit="9">9</button>
+        </div>
+
+        <div class="input-fallback">
+          <span class="fallback-label">Or type a digit:</span>
+          <input type="number" id="digitInput" min="0" max="9" value="8" class="direct-digit-input" aria-label="Target digit number">
+          <span class="hint-text">Pick your lucky digit between 0 and 9.</span>
+        </div>
+      </section>
+
+      <!-- The Big Number Display (Space Mono) -->
+      <section class="meter-section">
+        <div class="meter-frame">
+          <div class="meter-bezel">
+            <div class="meter-digits" id="digitDisplay">
+              <div class="digit-chamber" id="card0"><span class="digit-glyph">9</span></div>
+              <div class="digit-chamber" id="card1"><span class="digit-glyph">9</span></div>
+              <div class="digit-chamber" id="card2"><span class="digit-glyph">9</span></div>
+              <div class="digit-chamber" id="card3"><span class="digit-glyph">8</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard hint -->
+        <div class="hotkey-cue">
+          Press <kbd class="key-pill">Space</kbd> or <kbd class="key-pill">Enter</kbd> to roll a new vehicle number
+        </div>
+
+        <!-- Controls Toolbar -->
+        <div class="toolbar">
+          <button id="generateBtn" class="act-btn act-primary">
+            <svg class="btn-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span>Generate Vehicle Number</span>
+          </button>
+
+          <button id="generateBatchBtn" class="act-btn act-secondary" title="Generate 5 random variations">
+            <svg class="btn-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+            <span>Show 5 Options</span>
+          </button>
+
+          <button id="copyBtn" class="act-btn act-ghost" title="Copy number to clipboard">
+            <svg class="btn-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span class="copy-label">Copy</span>
+          </button>
+
+          <button id="exploreAllBtn" class="act-btn act-ghost" title="See all matching vehicle numbers">
+            <svg class="btn-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <span>See All Numbers</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- How the digits add up -->
+      <section class="proof-ledger" id="proofSection">
+        <div class="ledger-header">
+          <div class="ledger-title-group">
+            <span class="ledger-bullet" aria-hidden="true"></span>
+            <span class="ledger-title">HOW THE DIGITS ADD UP</span>
+          </div>
+          <span class="verified-tag" id="matchBadge">Total: 8</span>
+        </div>
+
+        <div class="ledger-derivation" id="stepsFlow">
+          <!-- Populated by JavaScript -->
+        </div>
+      </section>
+
+      <!-- Batch Options Panel -->
+      <section class="batch-panel hidden" id="batchSection">
+        <div class="batch-meta-bar">
+          <span class="batch-title">5 random vehicle numbers that add up to <strong id="batchTargetNum">8</strong></span>
+          <button id="closeBatchBtn" class="micro-btn">Close</button>
+        </div>
+        <div class="batch-grid" id="batchGrid"></div>
+      </section>
+    </main>
+
+    <!-- Recent Numbers List -->
+    <section class="history-card">
+      <div class="history-bar">
+        <div class="history-heading">
+          <span class="history-title">RECENT VEHICLE NUMBERS</span>
+          <span class="history-count" id="historyCount">0 numbers</span>
+        </div>
+        <button id="clearHistoryBtn" class="micro-btn">Clear list</button>
+      </div>
+
+      <div class="history-ledger" id="historyList">
+        <div class="ledger-empty">No numbers generated yet. Click "Generate Vehicle Number" to try one!</div>
+      </div>
+    </section>
+
+    <!-- Modal: Explore All Matching Numbers -->
+    <div class="modal-backdrop hidden" id="modalOverlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-box">
+        <div class="modal-top">
+          <div>
+            <h2 class="modal-h2" id="modalTitle">All Vehicle Numbers That Add Up to 8</h2>
+            <div class="modal-sub" id="modalSubtitle">1,111 matching numbers between 0000 and 9999</div>
+          </div>
+          <button id="closeModalBtn" class="modal-close-trigger" aria-label="Close dialog">&times;</button>
+        </div>
+
+        <div class="modal-toolbar">
+          <div class="search-wrap">
+            <svg class="search-glyph" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="modalSearch" placeholder="Type to filter (e.g. 99, 12)..." class="catalog-search">
+          </div>
+          <button id="modalPickRandomBtn" class="act-btn act-secondary btn-compact">Pick One For Me</button>
+        </div>
+
+        <div class="catalog-grid" id="numbersScrollBox">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Micro Toast -->
+    <div class="micro-toast hidden" id="toast" role="status" aria-live="polite">Copied to clipboard</div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
